@@ -1,0 +1,54 @@
+\documentclass{article}
+\pagestyle{empty}
+\usepackage{pstricks}
+\usepackage{pst-node}
+\usepackage{graphicx}
+
+\newcommand{\diaglength}{3.5em}
+
+\begin{document}
+\thispagestyle{empty}
+\noindent
+\setlength{\unitlength}{\diaglength}
+\psset{xunit=\diaglength,yunit=-\diaglength}
+\begin{picture}(1,1)
+\cnode[fillcolor=black,fillstyle=solid](0, 0){0.1}{u}
+\nput[labelsep=2.5pt]{-90}{u}{\small $u$}
+\cnode[fillcolor=black,fillstyle=solid](1, 0){0.1}{v}
+\nput[labelsep=2.5pt]{-90}{v}{\small $v$}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{u}{v}
+\rput(0.5, -1.5){$G$}
+\cnode[fillcolor=black,fillstyle=solid](2, 0){0.1}{u}
+\nput[labelsep=2.5pt]{-90}{u}{\small $\{u\}$}
+\cnode[fillcolor=black,fillstyle=solid](3, 0){0.1}{v}
+\nput[labelsep=2.5pt]{-90}{v}{\small $\{v\}$}
+\cnode[fillcolor=black,fillstyle=solid](2.5, -0.8660254037844386){0.1}{uv}
+\nput[labelsep=2.5pt]{90}{uv}{\small $\{u,v\}$}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{u}{v}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{u}{uv}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{v}{uv}
+\rput(2.5, -1.5){$S(G)$}
+\cnode[fillcolor=black,fillstyle=solid](4, 0){0.1}{u}
+\nput[labelsep=2.5pt]{-120}{u}{\small $\{\{u\}\}$}
+\cnode[fillcolor=black,fillstyle=solid](5, 0){0.1}{v}
+\nput[labelsep=2.5pt]{-30}{v}{\small $\{\{v\}\}$}
+\cnode[fillcolor=black,fillstyle=solid](4.5, -0.8660254037844386){0.1}{uv}
+\nput[labelsep=2.5pt]{90}{uv}{\small $\{\{u,v\}\}$}
+\cnode[fillcolor=black,fillstyle=solid](4.5, 0.8660254037844386){0.1}{ucv}
+\nput[labelsep=2.5pt]{-90}{ucv}{\small $\{\{u\},\{v\}\}$}
+\cnode[fillcolor=black,fillstyle=solid](3.5, -0.8660254037844384){0.1}{ucuv}
+\nput[labelsep=2.5pt]{90}{ucuv}{\small $\{\{u\},\{u,v\}\}$}
+\cnode[fillcolor=black,fillstyle=solid](5.5, -0.8660254037844388){0.1}{vcuv}
+\nput[labelsep=2.5pt]{90}{vcuv}{\small $\{\{v\},\{u,v\}\}$}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{u}{v}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{u}{uv}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{v}{uv}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{u}{ucv}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{v}{ucv}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{u}{ucuv}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{uv}{ucuv}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{uv}{vcuv}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{v}{vcuv}
+\rput(4.5, -1.5){$S^2(G)$}
+\end{picture}
+\end{document}

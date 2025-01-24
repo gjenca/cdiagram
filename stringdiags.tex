@@ -1,0 +1,42 @@
+\documentclass{article}
+\pagestyle{empty}
+\usepackage{pstricks}
+\usepackage{pst-node}
+\usepackage{graphicx}
+
+\newcommand{\diaglength}{<<baselength|default('5.5em')>>}
+
+\begin{document}
+\thispagestyle{empty}
+\noindent
+\setlength{\unitlength}{\diaglength}
+\psset{xunit=\diaglength,yunit=-\diaglength}
+\begin{picture}(1,1)
+%% for diag in diags
+%% for node in diag.values()
+%% if node.ntype=='pnode'
+\pnode<<node.position>>{<<node.name>>}
+%% elif node.ntype=='state'
+\rput<<node.position>>{\trinode[trimode=D]{<<node.name>>}{$<<node.label>>$}}
+%% elif node.ntype=='effect'
+\rput<<node.position>>{\trinode[trimode=U]{<<node.name>>}{$<<node.label>>$}}
+%% else
+\cnodeput<<node.position>>{<<node.name>>}{$<<node.label>>$}
+%% endif
+%% endfor
+%% for arrow in diag.arrows
+%% if arrow.atype=='cup'
+\ncarc[linecolor=<<arrow.color|default('black')>>,arcangle=-90,ncurv=3]{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+%% elif arrow.atype=='cap'
+\ncarc[linecolor=<<arrow.color|default('black')>>,arcangle=-90,ncurv=3]{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+%% else
+\nccurve[nodesep=0,linecolor=<<arrow.color|default('black')>>,angleA=<<arrow.angleA|default(90)>>,angleB=<<arrow.angleB|default(-90)>>,linewidth=<<arrow.linewidth|default('0.7pt')>>]{-}{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+\naput[labelsep=<<arrow.labelsep | default('1pt')>>]{<<arrow.label>>}
+%% endif 
+%% endfor
+%% if diag.label and diag.label_at
+\rput<<diag.label_at>>{$<<diag.label>>$}
+%% endif
+%% endfor
+\end{picture}
+\end{document}

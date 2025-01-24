@@ -1,0 +1,24 @@
+\documentclass{article}
+\pagestyle{empty}
+\usepackage{pstricks}
+\usepackage{pst-node}
+\usepackage{pstricks-add}
+\usepackage{graphicx}
+
+\newcommand{\diaglength}{8.5em}
+
+\begin{document}
+\thispagestyle{empty}
+\noindent
+\setlength{\unitlength}{\diaglength}
+\psset{xunit=\diaglength,yunit=-\diaglength}
+\begin{picture}(2, 3)
+\psnode(1, 0){M1}{$2^{[2]\times[2]}$}
+\psnode(0, 1){L1}{$2^{[3]\times[2]}$}
+\psnode(2, 1){A}{$A$}
+\psnode(1, 2){M2}{$2^{[2]\times[2]}$}
+\psnode(1, 3){M3}{$2^{[2]\times[2]}$}
+\ncline[nodesep=3pt,arrowscale=0.75]{-v}{M1}{L1}
+\nbput[labelsep=3pt]{$f*\mathrm{id}$}
+\end{picture}
+\end{document}

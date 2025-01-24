@@ -1,0 +1,26 @@
+\documentclass{article}
+\pagestyle{empty}
+\usepackage{pstricks}
+\usepackage{pst-node}
+\usepackage{pstricks-add}
+\usepackage{graphicx}
+
+\newcommand{\diaglength}{8.5em}
+
+\begin{document}
+\thispagestyle{empty}
+\noindent
+\setlength{\unitlength}{\diaglength}
+\psset{xunit=\diaglength,yunit=-\diaglength}
+\begin{picture}(2, 1)
+\psnode(0.7, 0.5){A}{$AA$}
+\psnode(1.7, 0.5){B}{$B$}
+\psnode(1, 1){C}{$CC$}
+\psnode(2, 1){D}{$D$}
+\ncline[nodesep=3pt,arrowscale=0.75]{-v}{A}{B}
+\naput[labelsep=3pt]{$f$}
+\ncline[nodesep=3pt,arrowscale=0.75]{->>}{A}{C}
+\nbput[labelsep=3pt]{$\alpha$}
+\ncline[nodesep=3pt,arrowscale=0.75]{-v}{C}{B}
+\end{picture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass{article}
+\pagestyle{empty}
+\usepackage{pstricks}
+\usepackage{pst-node}
+\usepackage{pstricks-add}
+\usepackage{graphicx}
+
+\newcommand{\diaglength}{8.5em}
+
+\begin{document}
+\thispagestyle{empty}
+\noindent
+\setlength{\unitlength}{\diaglength}
+\psset{xunit=\diaglength,yunit=-\diaglength}
+\begin{picture}(2, 1)
+\psnode(0, 0){A}{$A$}
+\psnode(2, 0){B}{$B$}
+\psnode(1, 1){C}{$C$}
+\ncarc[nodesep=3pt,arcangle=-45]{-v}{A}{B}
+\naput[labelsep=3pt]{$\mathrm{id}_{T(X)}$}
+\end{picture}
+\end{document}

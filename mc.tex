@@ -1,0 +1,38 @@
+\documentclass{article}
+\pagestyle{empty}
+\usepackage{pstricks}
+\usepackage{pst-node}
+\usepackage{graphicx}
+
+\newcommand{\diaglength}{3.5em}
+
+\begin{document}
+\thispagestyle{empty}
+\noindent
+\setlength{\unitlength}{\diaglength}
+\psset{xunit=\diaglength,yunit=-\diaglength}
+\begin{picture}(1,1)
+\cnode[fillcolor=black,fillstyle=solid](1, 0){0.1}{1}
+\nput[labelsep=2.5pt]{90}{1}{\small $1$}
+\cnode[fillcolor=black,fillstyle=solid](0, 1){0.1}{a}
+\nput[labelsep=2.5pt]{-90}{a}{\small $a$}
+\cnode[fillcolor=black,fillstyle=solid](2, 1){0.1}{b}
+\nput[labelsep=2.5pt]{-90}{b}{\small $b$}
+\cnode[fillcolor=black,fillstyle=solid](1, 2){0.1}{0}
+\nput[labelsep=2.5pt]{-90}{0}{\small $0$}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{0}{a}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{0}{b}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{1}{b}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{1}{a}
+\rput(1, 3){$2^2$}
+\cnode[fillcolor=black,fillstyle=solid](4, 0){0.1}{P}
+\nput[labelsep=2.5pt]{90}{P}{\small $2^2$}
+\cnode[fillcolor=black,fillstyle=solid](4, 1){0.1}{0ab}
+\nput[labelsep=2.5pt]{0}{0ab}{\small $\{0,a,b\}$}
+\cnode[fillcolor=black,fillstyle=solid](4, 2){0.1}{0}
+\nput[labelsep=2.5pt]{-90}{0}{\small $\{0\}$}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{P}{0ab}
+\ncline[nodesep=-1pt,linecolor=black,linewidth=0.7pt]{-}{0}{0ab}
+\rput(4, 3){$\overline{2^2}$}
+\end{picture}
+\end{document}

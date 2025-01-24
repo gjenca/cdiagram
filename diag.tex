@@ -1,0 +1,34 @@
+\documentclass{article}
+\pagestyle{empty}
+\usepackage{pstricks}
+\usepackage{pst-node}
+\usepackage{pstricks-add}
+\usepackage{graphicx}
+
+\newcommand{\diaglength}{<<baselength|default('8.5em')>>}
+
+\begin{document}
+\thispagestyle{empty}
+\noindent
+\setlength{\unitlength}{\diaglength}
+\psset{xunit=\diaglength,yunit=-\diaglength}
+\begin{picture}<<diag.dimensions()>>
+%% for node in diag.values()
+\psnode<<node.position>>{<<node.name>>}{$<<node.label>>$}
+%% endfor
+%% for arrow in diag.arrows
+%% if not arrow.type
+\ncline[nodesep=3pt,arrowscale=0.75]{<<arrow.shape|default('-v')>>}{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+%% elif arrow.type=='arc'
+\ncarc[nodesep=3pt,arcangle=<<arrow.arcangle|default('15')>>]{<<arrow.shape|default('-v')>>}{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+%% endif
+%% if arrow.label
+%% if arrow.label_position=='_'
+\nbput[labelsep=3pt]{$<<arrow.label>>$}
+%% else
+\naput[labelsep=3pt]{$<<arrow.label>>$}
+%% endif
+%% endif
+%% endfor
+\end{picture}
+\end{document}
