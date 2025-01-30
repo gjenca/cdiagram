@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "cdiagram"
+version = "0.1.0"
+description = "Diagrams in Python"
+authors = ["Gejza Jenča <gejza.jenca@stuba.sk>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

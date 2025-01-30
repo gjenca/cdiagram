@@ -47,7 +47,7 @@ class Node(dict):
 
     def __repr__(self):
 
-        return '\psnode%s{%s}{%s}' %(self.position,self.name,self['label'])
+        return r'\psnode%s{%s}{%s}' %(self.position,self.name,self['label'])
 
 class Cluster(list):
 
@@ -164,6 +164,40 @@ class Diagram(dict):
             if name in self.defaults:
                 del self.defaults[name]
 
+class StringDiagram(Diagram):
+
+    def add_point_node(self,*args,**kwargs):
+        kwargs['ntype']='point'
+        return self.add_node(*args,**kwargs)
+    
+    def add_circle_node(self,*args,**kwargs):
+        kwargs['ntype']='circle'
+        return self.add_node(*args,**kwargs)
+
+    def add_top_node(self,*args,**kwargs):
+        kwargs['is_top']=True
+        return self.add_point_node(*args,**kwargs)
+
+    def add_bottom_node(self,*args,**kwargs):
+        kwargs['is_bottom']=True
+        return self.add_point_node(*args,**kwargs)
+
+    def add_state(self,*args,**kwargs):
+        kwargs['ntype']='state'
+        return self.add_node(*args,**kwargs)
+    
+    def add_effect(self,*args,**kwargs):
+        kwargs['ntype']='effect'
+        return self.add_node(*args,**kwargs)
+
+    def add_cup(self,node1,node2,**kwargs):
+        kwargs['atype']='cup'
+        self.add_arrow(node1,node2,**kwargs)
+    
+    def add_cap(self,node1,node2,**kwargs):
+        kwargs['atype']='cap'
+        self.add_arrow(node1,node2,**kwargs)
+        
 
 class MatrixDiagram(Diagram):
 

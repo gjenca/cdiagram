@@ -2,41 +2,63 @@
 \pagestyle{empty}
 \usepackage{pstricks}
 \usepackage{pst-node}
+\usepackage{pst-arrow}
+\usepackage{pstricks-add}
 \usepackage{graphicx}
 
-\newcommand{\diaglength}{<<baselength|default('5.5em')>>}
-
+\newcommand{\diaglength}{<<baselength|default('1.5em')>>}
+\newcommand{\xunitlength}{<<xunitlength|default(baselength)|default('1.5em')>>}
+\newcommand{\yunitlength}{<<yunitlength|default(baselength)|default('1.5em')>>}
 \begin{document}
 \thispagestyle{empty}
+\small
 \noindent
 \setlength{\unitlength}{\diaglength}
-\psset{xunit=\diaglength,yunit=-\diaglength}
-\begin{picture}(1,1)
+\psset{xunit=\xunitlength,yunit=\yunitlength}
+%% if showgrid
+\begin{pspicture}[showgrid=true](5,5)
+%% else
+\begin{pspicture}(5,5)
+%% endif
 %% for diag in diags
 %% for node in diag.values()
-%% if node.ntype=='pnode'
+%% if node.ntype=='point'
 \pnode<<node.position>>{<<node.name>>}
+%% if node.is_top
+\psline[linewidth=0.7pt]{-}<<node.position>><<node.position+(0,0.5)>>
+%% endif
+%% if node.is_bottom
+\psline[linewidth=0.7pt]{-}<<node.position>><<node.position+(0,-0.5)>>
+%% endif
 %% elif node.ntype=='state'
 \rput<<node.position>>{\trinode[trimode=D]{<<node.name>>}{$<<node.label>>$}}
 %% elif node.ntype=='effect'
 \rput<<node.position>>{\trinode[trimode=U]{<<node.name>>}{$<<node.label>>$}}
+%% elif node.ntype=='circle'
+\cnode<<node.position>>{<<node.radius|default('0.07')>>}{<<node.name>>}
 %% else
 \cnodeput<<node.position>>{<<node.name>>}{$<<node.label>>$}
 %% endif
 %% endfor
 %% for arrow in diag.arrows
 %% if arrow.atype=='cup'
-\ncarc[linecolor=<<arrow.color|default('black')>>,arcangle=-90,ncurv=3]{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+\ncarc[linewidth=0.7pt,linecolor=<<arrow.color|default('black')>>,arcangle=-90,ncurv=2]{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
 %% elif arrow.atype=='cap'
-\ncarc[linecolor=<<arrow.color|default('black')>>,arcangle=-90,ncurv=3]{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+\ncarc[linewidth=0.7pt,linecolor=<<arrow.color|default('black')>>,arcangle=90,ncurv=2]{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
 %% else
-\nccurve[nodesep=0,linecolor=<<arrow.color|default('black')>>,angleA=<<arrow.angleA|default(90)>>,angleB=<<arrow.angleB|default(-90)>>,linewidth=<<arrow.linewidth|default('0.7pt')>>]{-}{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
-\naput[labelsep=<<arrow.labelsep | default('1pt')>>]{<<arrow.label>>}
+\nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.5,nodesep=0,linecolor=<<arrow.color|default('black')>>,angleA=<<arrow.angleA|default(90)>>,angleB=<<arrow.angleB|default(-90)>>,linewidth=<<arrow.linewidth|default('0.7pt')>>]{-}{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+%% if arrow.label
+%% if arrow.label_position=='_'
+\nbput[npos=<<arrow.npos|default('0.5')>>,labelsep=<<arrow.labelsep | default('0.5pt')>>]{$<<arrow.label>>$}
+%% else
+\naput[npos=<<arrow.npos|default('0.5')>>,labelsep=<<arrow.labelsep | default('0.5pt')>>]{$<<arrow.label>>$}
+%% endif
 %% endif 
+%% endif
 %% endfor
 %% if diag.label and diag.label_at
 \rput<<diag.label_at>>{$<<diag.label>>$}
 %% endif
 %% endfor
-\end{picture}
+\end{pspicture}
 \end{document}
