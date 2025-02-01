@@ -164,6 +164,32 @@ class Diagram(dict):
             if name in self.defaults:
                 del self.defaults[name]
 
+class StringDiagram(Diagram):
+
+    def add_point_node(self,*args,**kwargs):
+        kwargs['ntype']='point'
+        return self.add_node(*args,**kwargs)
+    
+    def add_circle_node(self,*args,**kwargs):
+        kwargs['label']=''
+        return self.add_node(*args,**kwargs)
+
+    def add_top_node(self,*args,**kwargs):
+        kwargs['is_top']=True
+        return self.add_point_node(*args,**kwargs)
+
+    def add_bottom_node(self,*args,**kwargs):
+        kwargs['is_bottom']=True
+        return self.add_point_node(*args,**kwargs)
+
+    def add_state(self,*args,**kwargs):
+        kwargs['ntype']='state'
+        return self.add_node(*args,**kwargs)
+    
+    def add_effect(self,*args,**kwargs):
+        kwargs['ntype']='effect'
+        return self.add_node(*args,**kwargs)
+        
 
 class MatrixDiagram(Diagram):
 

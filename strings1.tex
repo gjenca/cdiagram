@@ -10,27 +10,27 @@
 \thispagestyle{empty}
 \noindent
 \setlength{\unitlength}{\diaglength}
-\psset{xunit=\diaglength,yunit=-\diaglength}
+\psset{xunit=\diaglength,yunit=\diaglength}
 \begin{picture}(1,1)
-\pnode(2, -0.5){A}
-\cnodeput(2, 1){nabla2}{$\nabla$}
-\cnodeput(1, 2){nabla}{$\nabla$}
-\pnode(0, 3){B1}
-\pnode(2, 3){B2}
-\pnode(3, 3){B3}
-\pnode(0, 4){B1.}
-\nccurve[nodesep=0,linecolor=black,angleA=90,angleB=180,linewidth=0.7pt]{-}{B1}{nabla}
+\pnode(0, 0){B1}
+\psline[linewidth=0.7pt]{-}(0, 0)(0, -0.5)
+\pnode(2, 0){B2}
+\psline[linewidth=0.7pt]{-}(2, 0)(2, -0.5)
+\pnode(3, 0){B3}
+\psline[linewidth=0.7pt]{-}(3, 0)(3, -0.5)
+\cnodeput(1, 1){nabla1}{$$}
+\cnodeput(2, 2){nabla2}{$\nabla$}
+\pnode(2, 3){T}
+\psline[linewidth=0.7pt]{-}(2, 3)(2, 3.5)
+\nccurve[nodesep=0,linecolor=black,angleA=90,angleB=180,linewidth=0.7pt]{-}{B1}{nabla1}
+\naput[labelsep=1pt]{S}
+\nccurve[nodesep=0,linecolor=black,angleA=90,angleB=0,linewidth=0.7pt]{-}{B2}{nabla1}
 \naput[labelsep=1pt]{}
-\nccurve[nodesep=0,linecolor=black,angleA=90,angleB=0,linewidth=0.7pt]{-}{B2}{nabla}
-\naput[labelsep=1pt]{}
-\nccurve[nodesep=0,linecolor=black,angleA=90,angleB=180,linewidth=0.7pt]{-}{nabla}{nabla2}
+\nccurve[nodesep=0,linecolor=black,angleA=90,angleB=180,linewidth=0.7pt]{-}{nabla1}{nabla2}
 \naput[labelsep=1pt]{}
 \nccurve[nodesep=0,linecolor=black,angleA=90,angleB=0,linewidth=0.7pt]{-}{B3}{nabla2}
 \naput[labelsep=1pt]{}
-\nccurve[nodesep=0,linecolor=black,angleA=90,angleB=-90,linewidth=0.7pt]{-}{nabla2}{A}
-\naput[labelsep=1pt]{}
-\ncarc[linecolor=black,arcangle=-90,ncurv=3]{B2}{B3}
-\nccurve[nodesep=0,linecolor=black,angleA=90,angleB=-90,linewidth=0.7pt]{-}{B1.}{B1}
+\nccurve[nodesep=0,linecolor=black,angleA=90,angleB=-90,linewidth=0.7pt]{-}{nabla2}{T}
 \naput[labelsep=1pt]{}
 \end{picture}
 \end{document}
