@@ -21,16 +21,17 @@ class Position(tuple):
             scalary=scalars
         return Position((self[0]*scalarx,self[1]*scalary))
 
-class Node:
+class Node(dict):
 
-    def __init__(self,name,position,label='',**props):
+    def __init__(self,name,position,label=None,**props):
 
         self.name=name
         self.position=Position(position)
-        if not label:
-            self.label=name
+        dict.__init__(self,props)
+        if label is None:
+            self['label']=name
         else:
-            self.label=label
+            self['label']=label
 
     def shift(self,delta):
 
@@ -46,7 +47,7 @@ class Node:
 
     def __repr__(self):
 
-        return '\psnode%s{%s}{%s}' %(self.position,self.name,self.label)
+        return r'\psnode%s{%s}{%s}' %(self.position,self.name,self['label'])
 
 class Cluster(list):
 
@@ -64,8 +65,8 @@ class Cluster(list):
 
     def centroid(self):
 
-        x=float(sum(node.position[0] for node in self))/len(self)
-        y=float(sum(node.position[1] for node in self))/len(self)
+        x=float(sum(node.position[0] for nore in self))/len(self)
+        y=float(sum(node.position[1] for nore in self))/len(self)
 
         return x,y
 
@@ -73,21 +74,22 @@ class Cluster(list):
 
         return 'Cluster([%s])' % ','.join(repr(node) for node in self)
 
-class Arrow:
+class Arrow(dict):
 
-    def __init__(self,from_node,to_node,label=''):
+    def __init__(self,from_node,to_node,label='',**props):
 
         self.from_node=from_node
         self.to_node=to_node
 
         if label and label[0] in '_^':
-            self.label_position=label[0]
+            props['label_position']=label[0]
             label=label[1:]
-        self.label=label
+        dict.__init__(self,props)
+        self['label']=label
 
 
 
-class Circle:
+class Circle(dict):
 
     positions={
         't':0,
@@ -96,18 +98,18 @@ class Circle:
         'r':270,
     }
 
-    def __init__(self,node,position='t',label=''):
+    def __init__(self,node,position='t',label='',**props):
 
         self.node=node
         
         if label and label[0] in '_^':
             props['label_position']=label[0]
             label=label[1:]
-        self.label=label
+        dict.__init__(self,props)
+        self['label']=label
         
-        self.angleA=self.positions[position]
-        self.angleB=self.angleA+180
-
+        self['angleA']=self.positions[position]
+        self['angleB']=self['angleA']+180
 
 class Diagram(dict):
 
@@ -116,28 +118,21 @@ class Diagram(dict):
         self.arrows=[]
         self.circles=[]
         self.two_cells=[]
+        self.defaults={}
         super(Diagram,self).__init__()
 
-    def add_node(self,name,position,label='',**props):
+    def add_node(self,name,position,label=None,**props):
 
-        node=Node(name,position,label)
-        for key,val in props.items():
-            setattr(node,key,val)
-        self[name]=node
-        return node
+        props_default=copy.copy(self.defaults)
+        props_default.update(props)
+        self[name]=Node(name,position,label,**props_default)
+        return self[name]
 
     def add_arrow(self,from_name,to_name,label='',**props):
 
-        arr=Arrow(self[from_name],self[to_name],label)
-        for key,val in props.items():
-            setattr(arr,key,val)
+        arr=Arrow(self[from_name],self[to_name],label,**props)
         self.arrows.append(arr)
         return arr
-    
-    def add_arrows(self,*fromtos,label='',**props):
-
-        for frm,to in zip(fromtos,fromtos[1:]):
-            self.add_arrow(frm,to,label=label,**props)
 
     def add_circle(self,node_name,position='t',label='',**props):
 
@@ -169,6 +164,41 @@ class Diagram(dict):
             if name in self.defaults:
                 del self.defaults[name]
 
+class StringDiagram(Diagram):
+
+    def add_point_node(self,*args,**kwargs):
+        kwargs['ntype']='point'
+        return self.add_node(*args,**kwargs)
+    
+    def add_circle_node(self,*args,**kwargs):
+        kwargs['label']=''
+        kwargs['ntype']='circle'
+        return self.add_node(*args,**kwargs)
+
+    def add_top_node(self,*args,**kwargs):
+        kwargs['is_top']=True
+        return self.add_point_node(*args,**kwargs)
+
+    def add_bottom_node(self,*args,**kwargs):
+        kwargs['is_bottom']=True
+        return self.add_point_node(*args,**kwargs)
+
+    def add_state(self,*args,**kwargs):
+        kwargs['ntype']='state'
+        return self.add_node(*args,**kwargs)
+    
+    def add_effect(self,*args,**kwargs):
+        kwargs['ntype']='effect'
+        return self.add_node(*args,**kwargs)
+
+    def add_cup(self,node1,node2,**kwargs):
+        kwargs['atype']='cup'
+        self.add_arrow(node1,node2,**kwargs)
+    
+    def add_cap(self,node1,node2,**kwargs):
+        kwargs['atype']='cap'
+        self.add_arrow(node1,node2,**kwargs)
+        
 
 class MatrixDiagram(Diagram):
 
@@ -195,18 +225,18 @@ class MatrixDiagram(Diagram):
         self.current_col+=cols
         self.current_line.extend([None]*cols)
 
-    def node(self,name,label='',**props):
+    def node(self,name,label=None,**props):
 
-        node=self.add_node(name,(self.current_col,self.current_row),label=label,**props)
-        self.current_line.append(node)
-        self.last_node=node
+        node_added=self.add_node(name,(self.current_col,self.current_row),label=label,**props)
+        self.current_line.append(node_added)
+        self.last_node=node_added
         current_pos=(self.current_col,self.current_row)
         if current_pos in self.frozen_arrows:
             for frozen_arrow in self.frozen_arrows[current_pos]:
                 frozen_arrow(name)
             del self.frozen_arrows[current_pos]
-
         self.current_col+=1
+        return node_added
 
     def arr(self,direction,label='',**props):
 
@@ -270,7 +300,7 @@ if __name__=='__main__':
     print(d)
     d1=MatrixDiagram()
     d1.node("A",label="AA")
-    print('label of node A ==',d1['A'].label)
+    print('label of node A ==',d1['A']['label'])
     d1.node("B")
     d1.cr()
     d1.skip()

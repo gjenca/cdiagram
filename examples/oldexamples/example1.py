@@ -1,5 +1,5 @@
 import sys
-from cdiagram import Diagram,Node
+from cdiagram import Diagram
 from jinja2 import Template,FileSystemLoader,Environment
 
 env=Environment(loader=FileSystemLoader('.'),

@@ -1,8 +1,8 @@
 import sys
-from cdiagram import Diagram,Node
+from cdiagram import Diagram
 from jinja2 import Template,FileSystemLoader,Environment
 
-from cdutils import triangle_over
+from cdiagram.cdutils import triangle_over
 
 env=Environment(loader=FileSystemLoader('.'),
     line_statement_prefix='%%',variable_start_string='<<',variable_end_string='>>')
