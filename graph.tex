@@ -17,7 +17,11 @@
 \nput{<<node.labelangle|default('-90')>>}{<<node.name>>}{$<<node.label>>$}
 %% endfor
 %% for arrow in diag.arrows
+%% if arrow.type=='arrow'
+\ncline[linecolor=<<arrow.color|default('black')>>]{->}{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+%% else
 \ncline[linecolor=<<arrow.color|default('black')>>]{-}{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+%% endif
 %% endfor
 \end{picture}
 \end{document}
