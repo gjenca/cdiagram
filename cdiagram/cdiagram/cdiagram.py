@@ -134,6 +134,11 @@ class Diagram(dict):
         self.arrows.append(arr)
         return arr
 
+    def add_arrows(self,*fromtos,label='',**props):
+
+        for frm,to in zip(fromtos,fromtos[1:]):
+            self.add_arrow(frm,to,label=label,**props)
+
     def add_circle(self,node_name,position='t',label='',**props):
 
         arr=Circle(self[node_name],position,label,**props)
