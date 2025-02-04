@@ -3,6 +3,7 @@
 \usepackage{pstricks}
 \usepackage{pst-node}
 \usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
 
 \newcommand{\diaglength}{3.5em}
 
@@ -10,7 +11,7 @@
 \thispagestyle{empty}
 \noindent
 \setlength{\unitlength}{\diaglength}
-\psset{xunit=\diaglength,yunit=-\diaglength}
+\psset{xunit=\diaglength,yunit=\diaglength}
 \small
 \begin{picture}(1,1)
 \cnode[fillcolor=black,fillstyle=solid](1, 0){0.1}{1}
@@ -21,10 +22,26 @@
 \nput[labelsep=2.5pt]{-90}{b}{\small $b$}
 \cnode[fillcolor=black,fillstyle=solid](1, 2){0.1}{0}
 \nput[labelsep=2.5pt]{-90}{0}{\small $0$}
-\ncline[linecolor=black]{-}{0}{a}
-\ncline[linecolor=black]{-}{0}{b}
-\ncline[linecolor=black]{-}{1}{b}
-\ncline[linecolor=black]{-}{1}{a}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{0}{a}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{0}{b}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{1}{b}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{1}{a}
 \rput(1, 3){$2^2$}
 \cnode[fillcolor=black,fillstyle=solid](4, 0){0.1}{P}
 \nput[labelsep=2.5pt]{90}{P}{\small $2^2$}
@@ -32,8 +49,16 @@
 \nput[labelsep=2.5pt]{0}{0ab}{\small $\{0,a,b\}$}
 \cnode[fillcolor=black,fillstyle=solid](4, 2){0.1}{0}
 \nput[labelsep=2.5pt]{-90}{0}{\small $\{0\}$}
-\ncline[linecolor=black]{-}{P}{0ab}
-\ncline[linecolor=black]{-}{0}{0ab}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{P}{0ab}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{0}{0ab}
 \rput(4, 3){$\overline{2^2}$}
 \end{picture}
 \end{document}

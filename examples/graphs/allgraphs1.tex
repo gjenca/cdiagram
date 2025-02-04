@@ -3,6 +3,7 @@
 \usepackage{pstricks}
 \usepackage{pst-node}
 \usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
 
 \newcommand{\diaglength}{3.5em}
 
@@ -10,14 +11,18 @@
 \thispagestyle{empty}
 \noindent
 \setlength{\unitlength}{\diaglength}
-\psset{xunit=\diaglength,yunit=-\diaglength}
+\psset{xunit=\diaglength,yunit=\diaglength}
 \small
 \begin{picture}(1,1)
 \cnode[fillcolor=black,fillstyle=solid](0, 0){0.1}{u}
 \nput[labelsep=2.5pt]{-90}{u}{\small $u$}
 \cnode[fillcolor=black,fillstyle=solid](1, 0){0.1}{v}
 \nput[labelsep=2.5pt]{-90}{v}{\small $v$}
-\ncline[linecolor=black]{-}{u}{v}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{u}{v}
 \rput(0.5, -1.5){$G$}
 \cnode[fillcolor=black,fillstyle=solid](2, 0){0.1}{u}
 \nput[labelsep=2.5pt]{-90}{u}{\small $\{u\}$}
@@ -25,9 +30,21 @@
 \nput[labelsep=2.5pt]{-90}{v}{\small $\{v\}$}
 \cnode[fillcolor=black,fillstyle=solid](2.5, -0.8660254037844386){0.1}{uv}
 \nput[labelsep=2.5pt]{90}{uv}{\small $\{u,v\}$}
-\ncline[linecolor=black]{-}{u}{v}
-\ncline[linecolor=black]{-}{u}{uv}
-\ncline[linecolor=black]{-}{v}{uv}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{u}{v}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{u}{uv}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{v}{uv}
 \rput(2.5, -1.5){$S(G)$}
 \cnode[fillcolor=black,fillstyle=solid](4, 0){0.1}{u}
 \nput[labelsep=2.5pt]{-120}{u}{\small $\{\{u\}\}$}
@@ -41,15 +58,51 @@
 \nput[labelsep=2.5pt]{90}{ucuv}{\small $\{\{u\},\{u,v\}\}$}
 \cnode[fillcolor=black,fillstyle=solid](5.5, -0.8660254037844388){0.1}{vcuv}
 \nput[labelsep=2.5pt]{90}{vcuv}{\small $\{\{v\},\{u,v\}\}$}
-\ncline[linecolor=black]{-}{u}{v}
-\ncline[linecolor=black]{-}{u}{uv}
-\ncline[linecolor=black]{-}{v}{uv}
-\ncline[linecolor=black]{-}{u}{ucv}
-\ncline[linecolor=black]{-}{v}{ucv}
-\ncline[linecolor=black]{-}{u}{ucuv}
-\ncline[linecolor=black]{-}{uv}{ucuv}
-\ncline[linecolor=black]{-}{uv}{vcuv}
-\ncline[linecolor=black]{-}{v}{vcuv}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{u}{v}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{u}{uv}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{v}{uv}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{u}{ucv}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{v}{ucv}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{u}{ucuv}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{uv}{ucuv}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{uv}{vcuv}
+\ncline[
+    linecolor=black,
+    arrowscale=1.5,
+    linewidth=0.75pt
+    ]{-}{v}{vcuv}
 \rput(4.5, -1.5){$S^2(G)$}
 \end{picture}
 \end{document}
