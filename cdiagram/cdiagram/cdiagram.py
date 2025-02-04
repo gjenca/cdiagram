@@ -182,11 +182,15 @@ class StringDiagram(Diagram):
 
     def add_top_node(self,*args,**kwargs):
         kwargs['is_top']=True
-        return self.add_point_node(*args,**kwargs)
+        tn=self.add_point_node(*args,**kwargs)
+        tn.shift((0,0.5))
+        return tn
 
     def add_bottom_node(self,*args,**kwargs):
         kwargs['is_bottom']=True
-        return self.add_point_node(*args,**kwargs)
+        bn=self.add_point_node(*args,**kwargs)
+        bn.shift((0,-0.5))
+        return bn
 
     def add_state(self,*args,**kwargs):
         kwargs['ntype']='state'
