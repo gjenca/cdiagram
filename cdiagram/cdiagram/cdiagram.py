@@ -169,6 +169,16 @@ class Diagram(dict):
             if name in self.defaults:
                 del self.defaults[name]
 
+    def resize_to(self,x,y):
+
+        dim_x,dim_y=self.dimensions()
+        fac_x=x/dim_x
+        fac_y=y/dim_y
+        for node in self.values():
+            node.position=(
+                    node.position[0]*fac_x,
+                    node.position[1]*fac_y)
+
 class StringDiagram(Diagram):
 
     def add_point_node(self,*args,**kwargs):
