@@ -13,7 +13,7 @@
 \small
 \noindent
 \setlength{\unitlength}{\diaglength}
-\psset{xunit=\xunitlength,yunit=-\yunitlength}
+\psset{xunit=\xunitlength,yunit=\yunitlength}
 \begin{pspicture}(5,5)
 \rput(1, 0){\trinode[trimode=U]{chi}{$\chi$}}
 \cnodeput(1, 2){nabla}{$\nabla$}
@@ -21,7 +21,7 @@
 \rput(2, 4){\trinode[trimode=D]{v2}{$v$}}
 \nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.5,nodesep=0,linecolor=black,angleA=90,angleB=-90,linewidth=0.7pt]{-}{nabla}{chi}
 \nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.5,nodesep=0,linecolor=black,angleA=90,angleB=180,linewidth=0.7pt]{-}{v1}{nabla}
-\naput[ref=c,npos=0.5,labelsep=1.5pt]{$S$}
+\naput[ref=c,npos=0.5,labelsep=1.7pt]{$S$}
 \nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.5,nodesep=0,linecolor=black,angleA=90,angleB=0,linewidth=0.7pt]{-}{v2}{nabla}
 \end{pspicture}
 \end{document}

@@ -18,7 +18,7 @@
 \small
 \noindent
 \setlength{\unitlength}{\diaglength}
-\psset{xunit=\xunitlength,yunit=-\yunitlength}
+\psset{xunit=\xunitlength,yunit=\yunitlength}
 %% if showgrid
 \begin{pspicture}[showgrid=true](5,5)
 %% else
@@ -28,12 +28,6 @@
 %% for node in diag.values()
 %% if node.ntype=='point'
 \pnode<<node.position>>{<<node.name>>}
-%% if node.is_top
-\psline[linewidth=0.7pt]{-}<<node.position>><<node.position+(0,0.5)>>
-%% endif
-%% if node.is_bottom
-\psline[linewidth=0.7pt]{-}<<node.position>><<node.position+(0,-0.5)>>
-%% endif
 %% elif node.ntype=='state'
 \rput<<node.position>>{\trinode[trimode=D]{<<node.name>>}{$<<node.label>>$}}
 %% elif node.ntype=='effect'
@@ -54,10 +48,10 @@
 %% if arrow.label
 %% if arrow.label_position=='_'
 \nbput[ref=<<arrow.ref|default('c')>>,npos=<<arrow.npos|default('0.5')>>,labelsep=<<arrow.labelsep
-| default('1.5pt')>>]{$<<arrow.label>>$}
+| default('1.7pt')>>]{$<<arrow.label>>$}
 %% else
 \naput[ref=<<arrow.ref|default('c')>>,npos=<<arrow.npos|default('0.5')>>,labelsep=<<arrow.labelsep
-| default('1.5pt')>>]{$<<arrow.label>>$}
+| default('1.7pt')>>]{$<<arrow.label>>$}
 %% endif
 %% endif 
 %% endif
