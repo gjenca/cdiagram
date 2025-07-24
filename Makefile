@@ -8,9 +8,9 @@ all: \
 	examples/oldexamples/example3.pdf \
 	examples/graphs/mc.pdf \
 	examples/graphs/allgraphs1.pdf \
-	examples/strings/frobenius1.pdf \
-	examples/strings/strings2.pdf \
-	examples/strings/strings1.py
+	examples/strings/comOfProj1.pdf \
+	examples/strings/frob_mid.pdf \
+	examples/strings/frob_right.pdf
 
 .PRECIOUS: %.tex
 

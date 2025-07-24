@@ -6,6 +6,7 @@
 \usepackage{pst-arrow}
 \usepackage{pstricks-add}
 \usepackage{graphicx}
+\usepackage{amsbsy}
 %% endblock
 %% block baselengths
 \newcommand{\diaglength}{<<baselength|default('1.5em')>>}
@@ -29,29 +30,50 @@
 %% if node.ntype=='point'
 \pnode<<node.position>>{<<node.name>>}
 %% elif node.ntype=='state'
-\rput<<node.position>>{\trinode[trimode=D]{<<node.name>>}{$<<node.label>>$}}
+\rput<<node.position>>{\trinode[trimode=D,framesep=2pt]{<<node.name>>}{$\scriptstyle <<node.label>>$}}
 %% elif node.ntype=='effect'
-\rput<<node.position>>{\trinode[trimode=U]{<<node.name>>}{$<<node.label>>$}}
+\rput<<node.position>>{\trinode[trimode=U,framesep=2pt]{<<node.name>>}{$\scriptstyle <<node.label>>$}}
 %% elif node.ntype=='circle'
 \cnode[fillcolor=<<node.fillcolor|default('white')>>,fillstyle=solid]<<node.position>>{<<node.radius|default('0.07')>>}{<<node.name>>}
 %% else
-\cnodeput<<node.position>>{<<node.name>>}{$<<node.label>>$}
+\cnodeput[framesep=1pt]<<node.position>>{<<node.name>>}{$<<node.label>>$}
 %% endif
 %% endfor
 %% for arrow in diag.arrows
 %% if arrow.atype=='cup'
-\ncarc[linewidth=0.7pt,linecolor=<<arrow.color|default('black')>>,arcangle=-90,ncurv=2]{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+\ncarc[linewidth=0.7pt,linecolor=<<arrow.color|default('black')>>,arcangle=-90,
+%% if arrow.arrow_inside
+arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.75,
+%% endif
+ncurv=2
+]{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+%% elif arrow.atype=='cupdag'
+\ncarc[linewidth=0.7pt,linecolor=<<arrow.color|default('black')>>,arcangle=90,
+%% if arrow.arrow_inside
+arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.75,
+%% endif
+ncurv=2
+]{<<arrow.to_node.name>>}{<<arrow.from_node.name>>}
 %% elif arrow.atype=='cap'
-\ncarc[linewidth=0.7pt,linecolor=<<arrow.color|default('black')>>,arcangle=90,ncurv=2]{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+\ncarc[linewidth=0.7pt,linecolor=<<arrow.color|default('black')>>,arcangle=90,
+%% if arrow.arrow_inside
+arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.75,
+%% endif
+ncurv=2]{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+%% elif arrow.atype=='capdag'
+\ncarc[linewidth=0.7pt,linecolor=<<arrow.color|default('black')>>,arcangle=-90,
+%% if arrow.arrow_inside
+arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.75,
+%% endif
+ncurv=2
+]{<<arrow.to_node.name>>}{<<arrow.from_node.name>>}
 %% else
-\nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.5,nodesep=0,linecolor=<<arrow.color|default('black')>>,angleA=<<arrow.angleA|default(90)>>,angleB=<<arrow.angleB|default(-90)>>,linewidth=<<arrow.linewidth|default('0.7pt')>>]{-}{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+\nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=<<arrow.inside_pos|default(0.75)>>,nodesep=0,linecolor=<<arrow.color|default('black')>>,angleA=<<arrow.angleA|default(90)>>,angleB=<<arrow.angleB|default(-90)>>,linewidth=<<arrow.linewidth|default('0.7pt')>>,ncurv=<<arrow.ncurv|default(0.75)>>]{-}{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
 %% if arrow.label
 %% if arrow.label_position=='_'
-\nbput[ref=<<arrow.ref|default('c')>>,npos=<<arrow.npos|default('0.5')>>,labelsep=<<arrow.labelsep
-| default('1.7pt')>>]{$<<arrow.label>>$}
+\nbput[ref=<<arrow.ref|default('c')>>,npos=<<arrow.npos|default('0.5')>>,labelsep=<<arrow.labelsep | default('2pt')>>]{$\scriptstyle <<arrow.label>>$}
 %% else
-\naput[ref=<<arrow.ref|default('c')>>,npos=<<arrow.npos|default('0.5')>>,labelsep=<<arrow.labelsep
-| default('1.7pt')>>]{$<<arrow.label>>$}
+\naput[ref=<<arrow.ref|default('c')>>,npos=<<arrow.npos|default('0.5')>>,labelsep=<<arrow.labelsep | default('2pt')>>]{$\scriptstyle <<arrow.label>>$}
 %% endif
 %% endif 
 %% endif
