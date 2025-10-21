@@ -1,0 +1,31 @@
+\documentclass{article}
+\pagestyle{empty}
+\usepackage{pstricks}
+\usepackage{pst-node}
+\usepackage{pst-arrow}
+\usepackage{pstricks-add}
+\usepackage{graphicx}
+\usepackage{amsbsy}
+\newcommand{\diaglength}{1.5em}
+\newcommand{\xunitlength}{1.5em}
+\newcommand{\yunitlength}{1.5em}
+\begin{document}
+\thispagestyle{empty}
+\small
+\noindent
+\setlength{\unitlength}{\diaglength}
+\psset{xunit=\xunitlength,yunit=\yunitlength}
+\begin{pspicture}(5,5)
+\pnode(0, -0.5){B1}
+\pnode(2, -0.5){B2}
+\cnode[fillcolor=white,fillstyle=solid](1, 1){0.07}{nabla}
+\cnode[fillcolor=white,fillstyle=solid](1, 2){0.07}{delta}
+\pnode(0, 3.5){T1}
+\pnode(2, 3.5){T2}
+\nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.75,nodesep=0,linecolor=black,angleA=90,angleB=180,linewidth=0.7pt,ncurv=0.75]{-}{B1}{nabla}
+\nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.75,nodesep=0,linecolor=black,angleA=90,angleB=0,linewidth=0.7pt,ncurv=0.75]{-}{B2}{nabla}
+\nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.75,nodesep=0,linecolor=black,angleA=90,angleB=270,linewidth=0.7pt,ncurv=0.75]{-}{nabla}{delta}
+\nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.75,nodesep=0,linecolor=black,angleA=180,angleB=270,linewidth=0.7pt,ncurv=0.75]{-}{delta}{T1}
+\nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.75,nodesep=0,linecolor=black,angleA=0,angleB=270,linewidth=0.7pt,ncurv=0.75]{-}{delta}{T2}
+\end{pspicture}
+\end{document}

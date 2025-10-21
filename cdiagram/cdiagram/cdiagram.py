@@ -21,12 +21,24 @@ class Position(tuple):
             scalary=scalars
         return Position((self[0]*scalarx,self[1]*scalary))
 
+def _sort_key_arrows_from(arr):
+
+    return (arr.from_node.position)[0]
+
+def _sort_key_arrows_to(arr):
+
+    return (arr.to_node.position)[0]
+    
+
 class Node(dict):
 
     def __init__(self,name,position,label=None,**props):
 
         self.name=name
         self.position=Position(position)
+        self.source_of=[]
+        self.target_of=[]
+
         dict.__init__(self,props)
         if label is None:
             self['label']=name
@@ -44,6 +56,18 @@ class Node(dict):
     def shift_towards(self,goal,factor):
 
         self.shift((Position(goal)-self.position)*factor)
+
+    def fill_arrow_indices(self):
+        
+        for i,arr in enumerate(self.source_of):
+            arr.index_source=i
+        for i,arr in enumerate(self.target_of):
+            arr.index_target=i
+
+    def sort_arrows(self):
+       
+        self.source_of.sort(key=_sort_key_arrows_to)
+        self.target_of.sort(key=_sort_key_arrows_from)
 
     def __repr__(self):
 
@@ -80,12 +104,15 @@ class Arrow(dict):
 
         self.from_node=from_node
         self.to_node=to_node
+        from_node.source_of.append(self)
+        to_node.target_of.append(self)
 
         if label and label[0] in '_^':
             props['label_position']=label[0]
             label=label[1:]
         dict.__init__(self,props)
         self['label']=label
+
 
 
 
@@ -179,6 +206,16 @@ class Diagram(dict):
                     node.position[0]*fac_x,
                     node.position[1]*fac_y)
 
+def _compute_angle(index,total):
+
+    if total==1:
+       return 90
+    if total==2:
+        return (180,0)[index]
+    if total==3:
+        return (180,90,0)[index]
+    return None
+
 class StringDiagram(Diagram):
 
     def add_point_node(self,*args,**kwargs):
@@ -209,6 +246,14 @@ class StringDiagram(Diagram):
     def add_effect(self,*args,**kwargs):
         kwargs['ntype']='effect'
         return self.add_node(*args,**kwargs)
+    
+    def add_left_node(self,*args,**kwargs):
+        kwargs['ntype']='left'
+        return self.add_node(*args,**kwargs)
+    
+    def add_right_node(self,*args,**kwargs):
+        kwargs['ntype']='right'
+        return self.add_node(*args,**kwargs)
 
     def add_cup(self,node1,node2,**kwargs):
         kwargs['atype']='cup'
@@ -217,7 +262,30 @@ class StringDiagram(Diagram):
     def add_cap(self,node1,node2,**kwargs):
         kwargs['atype']='cap'
         self.add_arrow(node1,node2,**kwargs)
+    
+    def add_cupdag(self,node1,node2,**kwargs):
+        kwargs['atype']='cupdag'
+        self.add_arrow(node1,node2,**kwargs)
+    
+    def add_capdag(self,node1,node2,**kwargs):
+        kwargs['atype']='capdag'
+        self.add_arrow(node1,node2,**kwargs)
+
+    def sort_arrows(self):
         
+        for node in self.values():
+            node.sort_arrows()
+
+    def compute_angles(self):
+
+        for node in self.values():
+            node.fill_arrow_indices()
+        
+        for arr in self.arrows:
+            if 'angleA' not in arr:
+                arr['angleA']=_compute_angle(arr.index_source,len(arr.from_node.source_of))
+            if 'angleB' not in arr:
+                arr['angleB']=(-1)*_compute_angle(arr.index_target,len(arr.to_node.target_of))
 
 class MatrixDiagram(Diagram):
 

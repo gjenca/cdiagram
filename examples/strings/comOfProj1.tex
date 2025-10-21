@@ -1,0 +1,30 @@
+\documentclass{article}
+\pagestyle{empty}
+\usepackage{pstricks}
+\usepackage{pst-node}
+\usepackage{pst-arrow}
+\usepackage{pstricks-add}
+\usepackage{graphicx}
+\usepackage{amsbsy}
+\newcommand{\diaglength}{1.65em}
+\newcommand{\xunitlength}{1.65em}
+\newcommand{\yunitlength}{1.65em}
+\begin{document}
+\thispagestyle{empty}
+\small
+\noindent
+\setlength{\unitlength}{\diaglength}
+\psset{xunit=\xunitlength,yunit=\yunitlength}
+\begin{pspicture}(5,5)
+\rput(1, -0.5){\trinode[trimode=D,framesep=2pt]{v}{$\scriptstyle \mathbf{v}$}}
+\cnodeput[framesep=1pt](1, 1){pi}{$\pi$}
+\cnode[fillcolor=white,fillstyle=solid](1, 2){0.07}{delta}
+\cnode[fillcolor=white,fillstyle=solid](1, 4){0.07}{nabla}
+\pnode(1, 5.5){T}
+\nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.75,nodesep=0,linecolor=black,angleA=90,angleB=-90,linewidth=0.7pt,ncurv=0.75]{-}{v}{pi}
+\nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.75,nodesep=0,linecolor=black,angleA=90,angleB=-90,linewidth=0.7pt,ncurv=0.75]{-}{pi}{delta}
+\nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.75,nodesep=0,linecolor=black,angleA=180,angleB=180,linewidth=0.7pt,ncurv=0.75]{-}{delta}{nabla}
+\nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.75,nodesep=0,linecolor=black,angleA=0,angleB=0,linewidth=0.7pt,ncurv=0.75]{-}{delta}{nabla}
+\nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.75,nodesep=0,linecolor=black,angleA=90,angleB=-90,linewidth=0.7pt,ncurv=0.75]{-}{nabla}{T}
+\end{pspicture}
+\end{document}
