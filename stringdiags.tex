@@ -68,7 +68,10 @@ arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=0.75,
 ncurv=2
 ]{<<arrow.to_node.name>>}{<<arrow.from_node.name>>}
 %% else
-\nccurve[arrowscale=0.7,ArrowInside=-T>,ArrowInsidePos=<<arrow.inside_pos|default(0.75)>>,nodesep=0,linecolor=<<arrow.color|default('black')>>,angleA=<<arrow.angleA|default(90)>>,angleB=<<arrow.angleB|default(-90)>>,linewidth=<<arrow.linewidth|default('0.7pt')>>,ncurv=<<arrow.ncurv|default(0.75)>>]{-}{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+\nccurve[arrowscale=0.7,ArrowInside=-T>
+,ArrowInsidePos=<<arrow.inside_pos|default(0.75)>>,nodesep=0,linecolor=<<arrow.color|default('black')>>,angleA=<<arrow.angleA|default(90)>>,angleB=<<arrow.angleB|default(-90)>>,linewidth=<<arrow.linewidth|default('0.7pt')>>,ncurv=<<arrow.ncurv|default(0.75)>>]{-}
+{<<arrow.from_node.name>>}{<<arrow.to_node.name>>}
+%% endif
 %% if arrow.label
 %% if arrow.label_position=='_'
 \nbput[ref=<<arrow.ref|default('c')>>,npos=<<arrow.npos|default('0.5')>>,labelsep=<<arrow.labelsep | default('2pt')>>]{$\scriptstyle <<arrow.label>>$}
@@ -76,7 +79,6 @@ ncurv=2
 \naput[ref=<<arrow.ref|default('c')>>,npos=<<arrow.npos|default('0.5')>>,labelsep=<<arrow.labelsep | default('2pt')>>]{$\scriptstyle <<arrow.label>>$}
 %% endif
 %% endif 
-%% endif
 %% endfor
 %% if diag.label and diag.label_at
 \rput<<diag.label_at>>{$<<diag.label>>$}

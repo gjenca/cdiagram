@@ -271,6 +271,10 @@ class StringDiagram(Diagram):
         kwargs['atype']='capdag'
         self.add_arrow(node1,node2,**kwargs)
 
+    def add_dual_arrow(self,node1,node2,**kwargs):
+        kwargs['atype']='dual'
+        self.add_arrow(node1,node2,**kwargs)
+
     def sort_arrows(self):
         
         for node in self.values():
@@ -286,6 +290,10 @@ class StringDiagram(Diagram):
                 arr['angleA']=_compute_angle(arr.index_source,len(arr.from_node.source_of))
             if 'angleB' not in arr:
                 arr['angleB']=(-1)*_compute_angle(arr.index_target,len(arr.to_node.target_of))
+        for arr in self.arrows:
+            if 'atype' in arr and arr['atype']=='dual':
+                arr['angleA'],arr['angleB']=arr['angleB'],arr['angleA']
+                arr.from_node,arr.to_node=arr.to_node,arr.from_node
 
 class MatrixDiagram(Diagram):
 
