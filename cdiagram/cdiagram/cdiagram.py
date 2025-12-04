@@ -100,10 +100,11 @@ class Cluster(list):
 
 class Arrow(dict):
 
-    def __init__(self,from_node,to_node,label='',**props):
+    def __init__(self,from_node,to_node,label='',dual=False,**props):
 
         self.from_node=from_node
         self.to_node=to_node
+        self.dual=dual
         from_node.source_of.append(self)
         to_node.target_of.append(self)
 
@@ -112,6 +113,8 @@ class Arrow(dict):
             label=label[1:]
         dict.__init__(self,props)
         self['label']=label
+        if 'atype' not in self:
+            self['atype']='normal'
 
 
 
@@ -146,6 +149,7 @@ class Diagram(dict):
         self.circles=[]
         self.two_cells=[]
         self.defaults={}
+        self.defaults_arrows={}
         super(Diagram,self).__init__()
 
     def add_node(self,name,position,label=None,**props):
@@ -155,9 +159,11 @@ class Diagram(dict):
         self[name]=Node(name,position,label,**props_default)
         return self[name]
 
-    def add_arrow(self,from_name,to_name,label='',**props):
+    def add_arrow(self,from_name,to_name,label='',dual=False,**props):
 
-        arr=Arrow(self[from_name],self[to_name],label,**props)
+        props_default=copy.copy(self.defaults_arrows)
+        props_default.update(props)
+        arr=Arrow(self[from_name],self[to_name],label=label,dual=dual,**props_default)
         self.arrows.append(arr)
         return arr
 
@@ -165,6 +171,7 @@ class Diagram(dict):
 
         for frm,to in zip(fromtos,fromtos[1:]):
             self.add_arrow(frm,to,label=label,**props)
+    
 
     def add_circle(self,node_name,position='t',label='',**props):
 
@@ -188,7 +195,11 @@ class Diagram(dict):
 
     def set_default(self,**props):
 
-        self.defaults=props
+        self.defaults.update(props)
+    
+    def set_default_arrows(self,**props):
+
+        self.defaults_arrows.update(props)
 
     def unset_default(self,*names):
 
@@ -215,6 +226,17 @@ def _compute_angle(index,total):
     if total==3:
         return (180,90,0)[index]
     return None
+
+def _compute_offset(index,total,width):
+
+    if total==1:
+        return 0
+    if total==2:
+        return (width/2,-width/2)[index]
+    if total==3:
+        return (width/2,0,-width/2)[index]
+    return 0
+    
 
 class StringDiagram(Diagram):
 
@@ -272,13 +294,29 @@ class StringDiagram(Diagram):
         self.add_arrow(node1,node2,**kwargs)
 
     def add_dual_arrow(self,node1,node2,**kwargs):
-        kwargs['atype']='dual'
-        self.add_arrow(node1,node2,**kwargs)
+        self.add_arrow(node1,node2,dual=True,**kwargs)
+    
+    def add_dual_arrows(self,*fromtos,label='',**props):
+
+        for frm,to in zip(fromtos,fromtos[1:]):
+            self.add_dual_arrow(frm,to,label=label,**props)
 
     def sort_arrows(self):
         
         for node in self.values():
             node.sort_arrows()
+
+    def flip_duals(self):
+        
+        for arr in self.arrows:
+            if arr['atype'] not in ('normal','angle'):
+                continue
+            if arr.dual:
+                arr['angleA'],arr['angleB']=arr['angleB'],arr['angleA']
+                arr.from_node,arr.to_node=arr.to_node,arr.from_node
+                if arr['atype']=='angle':
+                    arr['offsetA'],arr['offsetB']=-arr['offsetB'],-arr['offsetA']
+
 
     def compute_angles(self):
 
@@ -286,14 +324,31 @@ class StringDiagram(Diagram):
             node.fill_arrow_indices()
         
         for arr in self.arrows:
+            if arr['atype']!='normal':
+                continue
             if 'angleA' not in arr:
                 arr['angleA']=_compute_angle(arr.index_source,len(arr.from_node.source_of))
             if 'angleB' not in arr:
                 arr['angleB']=(-1)*_compute_angle(arr.index_target,len(arr.to_node.target_of))
+        self.flip_duals()
+
+    def align_verticals(self,width=0.25):
+
+        for node in self.values():
+            node.fill_arrow_indices()
         for arr in self.arrows:
-            if 'atype' in arr and arr['atype']=='dual':
-                arr['angleA'],arr['angleB']=arr['angleB'],arr['angleA']
-                arr.from_node,arr.to_node=arr.to_node,arr.from_node
+            if arr['atype']!='angle':
+                continue
+            arr['angleA']=90
+            arr['angleB']=-90
+        for arr in self.arrows:
+            if arr['atype']!='angle':
+                continue
+            if 'offsetA' not in arr:
+                arr['offsetA']=_compute_offset(arr.index_source,len(arr.from_node.source_of),width=width)
+            if 'offsetB' not in arr:
+                arr['offsetB']=_compute_offset(arr.index_target,len(arr.to_node.target_of),width=width)
+        self.flip_duals()
 
 class MatrixDiagram(Diagram):
 
